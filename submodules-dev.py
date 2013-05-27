@@ -34,7 +34,9 @@ try:
         else:
             print('- Checking out master & updating')
             os.chdir(directory)
-            call(['git', 'checkout', 'master'])
+            if call(['git', 'symbolic-ref', 'HEAD']) != 0:
+                print('! Detached head, checking out master')
+                call(['git', 'checkout', 'master'])
             call(['git', 'pull', 'origin', 'master'])
             os.chdir(workdir)
 except IOError:
